@@ -19,7 +19,23 @@ public class PhoneController {
 	
 	@Autowired
 	private PhoneDao pDao;
+	
+	
+	@RequestMapping(value="/list", method= {RequestMethod.GET, RequestMethod.POST})
+	public String list(Model model) {
+		System.out.println("PhoneController>list()");
+		
+		//Dao에서 리스트를 가져온다
+		List<PersonVo> pList = pDao.getPersonList();
+		System.out.println(pList);
+		
+		//컨트롤러 ----> DS 데이터를 보낸다 (model)
+		model.addAttribute("pList", pList);	
+		
+		return "list";
+	}
 
+	
 	@RequestMapping(value="/writeForm", method= {RequestMethod.GET, RequestMethod.POST})
 	public String writeForm() {
 		System.out.println("PhoneController>writeForm()");
@@ -38,21 +54,9 @@ public class PhoneController {
 		//리다이렉트
 		return "redirect:/phone/list";
 	}
+
 	
-	@RequestMapping(value="/list", method= {RequestMethod.GET, RequestMethod.POST})
-	public String list(Model model) {
-		System.out.println("PhoneController>list()");
-		
-		//Dao에서 리스트를 가져온다
-		List<PersonVo> pList = pDao.getPersonList();
-		System.out.println(pList);
-		
-		//컨트롤러 ----> DS 데이터를 보낸다 (model)
-		model.addAttribute("pList", pList);	
-		
-		return "list";
-	}
-	
+
 	@RequestMapping(value="/delete", method= {RequestMethod.GET, RequestMethod.POST})
 	public String delete(@RequestParam("no") int id) {
 		System.out.println("PhoneController>delete()");
@@ -61,7 +65,7 @@ public class PhoneController {
 		
 		return "redirect:/phone/list";
 	}
-	
+	/*
 	@RequestMapping(value="/updateForm", method= {RequestMethod.GET, RequestMethod.POST})
 	public String updateForm(Model model, @RequestParam("id") int id) {
 		System.out.println("PhoneController>updateForm()");
@@ -81,6 +85,6 @@ public class PhoneController {
 		
 		return "redirect:/phone/list";
 	}
-
+	 */
 	
 }

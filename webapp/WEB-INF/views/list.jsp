@@ -39,7 +39,7 @@
 
 
 
-	<a href="">등록</a>
+	<a href="/phonebook4/phone/writeForm">등록</a>
 
 
 
