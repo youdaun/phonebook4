@@ -3,8 +3,16 @@
 
 <mapper namespace="phonebook">
 
+
 	<!-- 쿼리문 작성 -->
-	<select id="selectList" resultType="com.javaex.vo.PersonVo">
+	<resultMap id="resultMapPersonVo" type="com.javaex.vo.PersonVo">
+		<result column="person_id" property="person_id" />
+		<result column="name" property="name" />
+		<result column="hp" property="hp" />
+		<result column="company" property="company" />
+	</resultMap>
+
+	<select id="selectList" resultMap="resultMapPersonVo">
 		<![CDATA[
 			select person_id
 				   ,name
@@ -14,7 +22,19 @@
 			order by person_id desc
 		]]> <!-- 부등호랑 태그랑 헷갈리는거떄매 이안에 쿼리문을 넣어줌 -->
 	</select>
-	
+
+	<select id="selectPerson" parameterType="int" resultType="PersonVo">
+		<![CDATA[
+			select person_id
+				   ,name
+				   ,hp
+				   ,company
+			from   person
+			where  person_id = #{index}
+		]]>
+	</select>
+
+	<!--
 	<insert id="insert" parameterType="com.javaex.vo.PersonVo">
 		<![CDATA[
 			insert into person
@@ -25,13 +45,37 @@
 			)
 		]]>
 	</insert>
+	-->
 	
+	<insert id="insert" parameterType="map">
+		<![CDATA[
+			insert into person
+			values(SEQ_PERSON_ID.nextval, 
+				   #{name}, 
+				   #{hp}, 
+				   #{company}
+			)
+		]]>
+	</insert>
+
 	<delete id="delete" parameterType="int">
 		<![CDATA[
 			delete from person
-			where person_id = #{person_id}
+			where person_id = #{no}
 		]]>
 	</delete>
+
+	<update id="update" parameterType="PersonVo">
+		<![CDATA[
+			update person
+			set    name = #{name}
+				   ,hp = #{hp}
+    			   ,company = #{company}
+			where  person_id = #{person_id}
+		]]>
+	</update>
+
+
 
 
 </mapper>
